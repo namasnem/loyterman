@@ -88,6 +88,75 @@ function wireIslandSelectors() {
   });
 }
 
+function wireGovernmentFilters() {
+  const searchInput = document.querySelector("[data-gov-search]");
+  const filterSelect = document.querySelector("[data-gov-filter]");
+  const cards = Array.from(document.querySelectorAll("[data-gov-card]"));
+  if (!searchInput || !filterSelect || !cards.length) return;
+
+  const updateResults = () => {
+    const term = searchInput.value.trim().toLowerCase();
+    const category = filterSelect.value;
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      const text = (card.dataset.search || card.textContent || "").toLowerCase();
+      const tags = (card.dataset.tags || "").toLowerCase();
+      const matchesTerm = !term || text.includes(term) || tags.includes(term);
+      const matchesCategory = category === "all" || card.dataset.category === category;
+      const shouldShow = matchesTerm && matchesCategory;
+      card.classList.toggle("hidden", !shouldShow);
+      if (shouldShow) visibleCount += 1;
+    });
+
+    const count = document.querySelector("[data-gov-count]");
+    if (count) {
+      count.textContent = `${visibleCount} focus areas`;
+    }
+  };
+
+  searchInput.addEventListener("input", updateResults);
+  filterSelect.addEventListener("change", updateResults);
+  updateResults();
+}
+
+function wireBriefingTabs() {
+  const tabs = Array.from(document.querySelectorAll("[data-briefing-tab]"));
+  const panels = Array.from(document.querySelectorAll("[data-briefing-panel]"));
+  if (!tabs.length || !panels.length) return;
+
+  const activateTab = (target) => {
+    tabs.forEach((tab) => {
+      const isActive = tab.dataset.tabTarget === target;
+      tab.classList.toggle("is-active", isActive);
+      tab.setAttribute("aria-selected", isActive.toString());
+    });
+    panels.forEach((panel) => {
+      panel.classList.toggle("is-active", panel.dataset.briefingPanel === target);
+    });
+  };
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const target = tab.dataset.tabTarget;
+      if (target) activateTab(target);
+    });
+  });
+}
+
+function updateGovRefresh() {
+  const refresh = document.querySelector("[data-gov-refresh]");
+  if (!refresh) return;
+  const time = new Date();
+  refresh.textContent = time.toLocaleTimeString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
+
 setBrandFallback();
 wireJurisdictionSelectors();
 wireIslandSelectors();
+wireGovernmentFilters();
+wireBriefingTabs();
+updateGovRefresh();

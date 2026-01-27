@@ -276,6 +276,174 @@ img {
   max-width: 72ch;
 }
 
+.gov-dashboard {
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: #fff;
+  padding: 18px;
+  display: grid;
+  gap: 18px;
+}
+
+.gov-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.gov-control {
+  display: grid;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.gov-control input,
+.gov-control select {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #f6f6f3;
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.gov-refresh {
+  border-left: 1px solid var(--line);
+  padding-left: 16px;
+  display: grid;
+  align-content: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.gov-refresh strong {
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.gov-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.gov-stat {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #f7f6f1;
+  border: 1px solid rgba(210, 214, 222, 0.7);
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.gov-stat strong {
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.gov-grid .card .badge {
+  margin-left: auto;
+}
+
+.gov-briefing {
+  display: grid;
+  gap: 16px;
+}
+
+.briefing-header {
+  display: grid;
+  gap: 6px;
+}
+
+.briefing-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tab-button {
+  border-radius: 999px;
+  padding: 8px 16px;
+  border: 1px solid var(--line);
+  background: #fff;
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.tab-button.is-active {
+  color: var(--ink);
+  border-color: rgba(194, 162, 87, 0.6);
+  background: rgba(194, 162, 87, 0.18);
+  font-weight: 600;
+}
+
+.briefing-panels {
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: #fff;
+  padding: 16px;
+}
+
+.briefing-panel {
+  display: none;
+  gap: 8px;
+}
+
+.briefing-panel.is-active {
+  display: grid;
+}
+
+.briefing-panel h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.briefing-panel ul {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--muted);
+  font-size: 13px;
+  display: grid;
+  gap: 6px;
+}
+
+.gov-timeline .timeline {
+  display: grid;
+  gap: 12px;
+}
+
+.timeline-item {
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: #fff;
+  display: grid;
+  gap: 6px;
+}
+
+.timeline-date {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.timeline-item h3 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.timeline-item p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
 .search-bar {
   display: flex;
   gap: 12px;
