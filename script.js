@@ -111,7 +111,8 @@ function wireGovernmentFilters() {
 
     const count = document.querySelector("[data-gov-count]");
     if (count) {
-      count.textContent = `${visibleCount} focus areas`;
+      const label = visibleCount === 1 ? "focus area" : "focus areas";
+      count.textContent = `${visibleCount} ${label}`;
     }
   };
 
