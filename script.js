@@ -111,6 +111,13 @@ function wireGovernmentFilters() {
 
     const count = document.querySelector("[data-gov-count]");
     if (count) {
+      // Ensure the count element acts as a live region so screen readers announce updates
+      if (!count.hasAttribute("aria-live")) {
+        count.setAttribute("aria-live", "polite");
+      }
+      if (!count.hasAttribute("role")) {
+        count.setAttribute("role", "status");
+      }
       const label = visibleCount === 1 ? "focus area" : "focus areas";
       count.textContent = `${visibleCount} ${label}`;
     }
