@@ -125,21 +125,84 @@ function wireBriefingTabs() {
   const panels = Array.from(document.querySelectorAll("[data-briefing-panel]"));
   if (!tabs.length || !panels.length) return;
 
+  const updateTabFocus = (activeIndex) => {
+    tabs.forEach((tab, index) => {
+      tab.tabIndex = index === activeIndex ? 0 : -1;
+    });
+  };
+
   const activateTab = (target) => {
-    tabs.forEach((tab) => {
+    let activeIndex = -1;
+    tabs.forEach((tab, index) => {
       const isActive = tab.dataset.tabTarget === target;
+      if (isActive) {
+        activeIndex = index;
+      }
       tab.classList.toggle("is-active", isActive);
       tab.setAttribute("aria-selected", isActive.toString());
     });
     panels.forEach((panel) => {
       panel.classList.toggle("is-active", panel.dataset.briefingPanel === target);
     });
+    if (activeIndex !== -1) {
+      updateTabFocus(activeIndex);
+    }
   };
 
-  tabs.forEach((tab) => {
+  // Initialize roving tabindex so that only the active tab (or the first tab)
+  // is reachable via Tab, per WAI-ARIA tab pattern.
+  let initialIndex = tabs.findIndex(
+    (tab) => tab.classList.contains("is-active") || tab.getAttribute("aria-selected") === "true"
+  );
+  if (initialIndex === -1) {
+    initialIndex = 0;
+  }
+  updateTabFocus(initialIndex);
+
+  tabs.forEach((tab, index) => {
     tab.addEventListener("click", () => {
       const target = tab.dataset.tabTarget;
-      if (target) activateTab(target);
+      if (target) {
+        activateTab(target);
+        tab.focus();
+      }
+    });
+
+    tab.addEventListener("keydown", (event) => {
+      const key = event.key;
+      let newIndex = -1;
+
+      if (key === "ArrowRight" || key === "Right") {
+        event.preventDefault();
+        newIndex = (index + 1) % tabs.length;
+      } else if (key === "ArrowLeft" || key === "Left") {
+        event.preventDefault();
+        newIndex = (index - 1 + tabs.length) % tabs.length;
+      } else if (key === "Home") {
+        event.preventDefault();
+        newIndex = 0;
+      } else if (key === "End") {
+        event.preventDefault();
+        newIndex = tabs.length - 1;
+      } else if (key === "Enter" || key === " ") {
+        const target = tab.dataset.tabTarget;
+        if (target) {
+          event.preventDefault();
+          activateTab(target);
+        }
+        return;
+      } else {
+        return;
+      }
+
+      if (newIndex >= 0 && newIndex < tabs.length) {
+        const newTab = tabs[newIndex];
+        const target = newTab.dataset.tabTarget;
+        if (target) {
+          activateTab(target);
+          newTab.focus();
+        }
+      }
     });
   });
 }
